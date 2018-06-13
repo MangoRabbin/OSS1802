@@ -15,16 +15,21 @@ int team[MAX_STUDENTS] ;
 int n_team_members[MAX_STUDENTS / 2] ;
 int conflict[MAX_STUDENTS][MAX_STUDENTS] ;
 
-int read_student_list() 
+int read_student_list()
 {
 	FILE * fp ;
 	char * b ;
 	int i ; 
-
-	fp = fopen("students.txt", "r") ; //TODO: allow a user can give a different file name as an argument.
+	char fname[100] ;
+	printf("input file name: ");
+	scanf("%s",fname);
+	printf("%s",fname);
+	fp = fopen(fname , "r");
+//	fp = fopen("students.txt", "r") ; //TODO: allow a user can give a different file name as an argument.
 	while (feof(fp) == 0) {
 		if (fscanf(fp, "%d", &(students[n_students])) == 1)
 			n_students++ ;
+			printf("%d\n",n_students);
 	}
 	fclose(fp) ;
 
@@ -51,7 +56,6 @@ void read_conflict(char * fname)
 	FILE * fp ;
 	char * b = NULL ;
 	size_t n = 0 ;
-
 
 	fp = fopen(fname, "r") ;  // TODO: handle file errors
 	
@@ -168,11 +172,11 @@ void main(int argc, char ** argv)
 {	
 	char c ; 
 	char * fconflict = NULL ;
-
-	while ((c = getopt(argc, argv, "hp:")) != -1) {
+	char * fname ;
+	while ((c = getopt(argc, argv, "hnp:")) != -1) {
 		switch (c) {
 			case 'p':
-				fconflict = optarg ;
+				fconflict = optarg;
 				break ;
 
 			case 'h':
@@ -186,7 +190,6 @@ void main(int argc, char ** argv)
 				exit(1) ;
 		}
 	}
-
 	read_student_list() ;
 	if (fconflict != NULL)
 		read_conflict(fconflict) ;
